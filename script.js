@@ -1,4 +1,9 @@
-// Your specific Firebase configuration
+const password = prompt("Enter the secret passcode to enter the chat:");
+
+if (password !== "YourSecretWordHere") {
+    alert("Incorrect password. Access denied.");
+    document.body.innerHTML = "<h1>Unauthorized Access</h1>";
+}// Your specific Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyCRaMuxzfjqf0TEbS_YIQdJ3DLUAZ4S6So",
   authDomain: "our-private-space-589d7.firebaseapp.com",
