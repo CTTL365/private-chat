@@ -1,95 +1,46 @@
-// Keep your Firebase Config at the top as it was!
-// ...
+// 1. Ask for the user's name
+const myName = prompt("Who are you?");
 
-const chatWindow = document.getElementById('chat-window');
-const messageInput = document.getElementById('message-input');
-const sendBtn = document.getElementById('send-btn');
-
-// Ask who is using the app
-const myName = prompt("Who are you? (Type your name)");
-
-sendBtn.onclick = () => {
-    const msg = messageInput.value;
-    if (msg.trim() !== "") {
-        // Now sending name AND time
-        database.ref('messages').push({
-            sender: myName,
-            content: msg,
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        });
-        messageInput.value = "";
-    }
+// 2. Your Firebase Configuration (Updated with your keys!)
+const firebaseConfig = {
+  apiKey: "AIzaSyCRaMuxzfjqf0TEbS_YIQdJ3DLUAZ4S6So",
+  authDomain: "our-private-space-589d7.firebaseapp.com",
+  databaseURL: "https://our-private-space-589d7-default-rtdb.firebaseio.com",
+  projectId: "our-private-space-589d7",
+  storageBucket: "our-private-space-589d7.firebasestorage.app",
+  messagingSenderId: "1059054384997",
+  appId: "1:1059054384997:web:6b9a8f4fbe26e0f073d38c",
+  measurementId: "G-1W0ELKPN3T"
 };
 
-// Listen for new messages
-database.ref('messages').on('child_added', (snapshot) => {
-    const data = snapshot.val();
-    const msgDiv = document.createElement('div');
-    
-    // Check if the message is from YOU or your SISTER to style it differently
-    const isMe = data.sender === myName;
-    msgDiv.classList.add('message');
-    if (isMe) msgDiv.classList.add('my-message');
-    
-    chatWindow.appendChild(msgDiv);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-});// This listens for the "Enter" key on your keyboard
-messageInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-        sendBtn.click();
-    }
-});
-<button id="clear-btn">Clear History</button>
-document.getElementById('clear-btn').onclick = () => {
-    if(confirm("Are you sure you want to delete all messages?")) {
-        database.ref('messages').remove();
-        location.reload(); // Refresh the page to show it's empty
-    }
-database.ref('messages').on('child_added', (snapshot) => {
-    const data = snapshot.val();
-    const msgDiv = document.createElement('div');
-    
-    msgDiv.classList.add('message');
-    
-    // If the name matches yours, add the 'my-message' class
-    if (data.sender === myName) {
-        msgDiv.classList.add('my-message');
-    }
-    
-    chatWindow.appendChild(msgDiv);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-});
-document.getElementById('clear-btn').onclick = () => {
-    if(confirm("Delete all messages for everyone?")) {
-        database.ref('messages').remove();
-        location.reload(); 
-    }
-};
-// Wait for the page to finish loading
+// 3. Initialize Firebase
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+const database = firebase.database();
+
+// 4. Main logic starts when the page loads
 window.onload = function() {
-    
     const chatWindow = document.getElementById('chat-window');
     const messageInput = document.getElementById('message-input');
     const sendBtn = document.getElementById('send-btn');
     const clearBtn = document.getElementById('clear-btn');
 
-    // Make sure all elements exist before adding logic
+    // --- SENDING MESSAGES ---
     if (sendBtn && messageInput) {
-        
-        // 1. Sending with the Button
         sendBtn.onclick = () => {
             const msg = messageInput.value;
             if (msg.trim() !== "") {
                 database.ref('messages').push({
-                    sender: myName || "User", // Uses prompt name or "User"
+                    sender: myName || "User",
                     content: msg,
                     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                 });
-                messageInput.value = ""; // Clears the box
+                messageInput.value = ""; 
             }
         };
 
-        // 2. Sending with the "Enter" Key
+        // Fix for the "Enter" key
         messageInput.addEventListener("keypress", (e) => {
             if (e.key === "Enter") {
                 sendBtn.click();
@@ -97,12 +48,34 @@ window.onload = function() {
         });
     }
 
-    // 3. Clear Chat Logic
+    // --- RECEIVING MESSAGES ---
+    database.ref('messages').on('child_added', (snapshot) => {
+        const data = snapshot.val();
+        const msgDiv = document.createElement('div');
+        
+        msgDiv.classList.add('message');
+        
+        // If you are the sender, push bubble to the right
+        if (data.sender === myName) {
+            msgDiv.classList.add('my-message');
+        }
+
+        msgDiv.innerHTML = `
+            <small class="sender-name">${data.sender}</small>
+            <div class="text">${data.content}</div>
+            <small class="timestamp">${data.time}</small>
+        `;
+        
+        chatWindow.appendChild(msgDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight; // Auto-scroll
+    });
+
+    // --- CLEAR CHAT BUTTON ---
     if (clearBtn) {
         clearBtn.onclick = () => {
-            if(confirm("Delete all messages?")) {
+            if(confirm("Are you sure you want to delete all messages?")) {
                 database.ref('messages').remove();
-                chatWindow.innerHTML = ""; // Clears the screen immediately
+                location.reload(); 
             }
         };
     }
