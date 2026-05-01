@@ -78,3 +78,45 @@ document.getElementById('clear-btn').onclick = () => {
         location.reload(); 
     }
 };
+// Wait for the page to finish loading
+window.onload = function() {
+    
+    const chatWindow = document.getElementById('chat-window');
+    const messageInput = document.getElementById('message-input');
+    const sendBtn = document.getElementById('send-btn');
+    const clearBtn = document.getElementById('clear-btn');
+
+    // Make sure all elements exist before adding logic
+    if (sendBtn && messageInput) {
+        
+        // 1. Sending with the Button
+        sendBtn.onclick = () => {
+            const msg = messageInput.value;
+            if (msg.trim() !== "") {
+                database.ref('messages').push({
+                    sender: myName || "User", // Uses prompt name or "User"
+                    content: msg,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
+                messageInput.value = ""; // Clears the box
+            }
+        };
+
+        // 2. Sending with the "Enter" Key
+        messageInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                sendBtn.click();
+            }
+        });
+    }
+
+    // 3. Clear Chat Logic
+    if (clearBtn) {
+        clearBtn.onclick = () => {
+            if(confirm("Delete all messages?")) {
+                database.ref('messages').remove();
+                chatWindow.innerHTML = ""; // Clears the screen immediately
+            }
+        };
+    }
+};
