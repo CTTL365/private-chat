@@ -45,3 +45,4 @@ messageInput.addEventListener("keypress", (e) => {
         sendBtn.click();
     }
 });
+<button id="clear-btn">Clear History</button>
