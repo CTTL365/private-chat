@@ -1,3 +1,9 @@
+const secretCode = prompt("Enter the Secret Space Code:");
+if (secretCode !== "Secret=15402") { // Change 1234 to your own password
+    alert("Incorrect code. Access denied.");
+    document.body.innerHTML = "<h1>Unauthorized Access</h1>";
+    throw new Error("Unauthorized");
+  
 const myName = prompt("Who are you?");
 
 const firebaseConfig = {
