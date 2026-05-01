@@ -72,3 +72,9 @@ database.ref('messages').on('child_added', (snapshot) => {
     chatWindow.appendChild(msgDiv);
     chatWindow.scrollTop = chatWindow.scrollHeight;
 });
+document.getElementById('clear-btn').onclick = () => {
+    if(confirm("Delete all messages for everyone?")) {
+        database.ref('messages').remove();
+        location.reload(); 
+    }
+};
