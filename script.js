@@ -46,3 +46,9 @@ messageInput.addEventListener("keypress", (e) => {
     }
 });
 <button id="clear-btn">Clear History</button>
+document.getElementById('clear-btn').onclick = () => {
+    if(confirm("Are you sure you want to delete all messages?")) {
+        database.ref('messages').remove();
+        location.reload(); // Refresh the page to show it's empty
+    }
+};
