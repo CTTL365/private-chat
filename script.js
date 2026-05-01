@@ -50,5 +50,17 @@ window.onload = function() {
     chatWindow.appendChild(msgDiv);
     chatWindow.scrollTop = chatWindow.scrollHeight;
 }); // <--- Make sure this line exists!
+      database.ref('messages').on('child_added', (snapshot) => {
+        const data = snapshot.val();
+        const msgDiv = document.createElement('div');
+        msgDiv.classList.add('message');
+        if (data.sender === myName) { 
+            msgDiv.classList.add('my-message'); 
+        }
+        msgDiv.innerHTML = `<small>${data.sender}</small><div>${data.content}</div>`;
+        chatWindow.appendChild(msgDiv);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    });
+}; // This closing bracket ends the window.onload function
     });
 };
