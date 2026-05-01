@@ -39,4 +39,9 @@ database.ref('messages').on('child_added', (snapshot) => {
     
     chatWindow.appendChild(msgDiv);
     chatWindow.scrollTop = chatWindow.scrollHeight;
+});// This listens for the "Enter" key on your keyboard
+messageInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        sendBtn.click();
+    }
 });
