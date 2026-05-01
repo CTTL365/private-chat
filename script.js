@@ -52,3 +52,23 @@ document.getElementById('clear-btn').onclick = () => {
         location.reload(); // Refresh the page to show it's empty
     }
 };
+database.ref('messages').on('child_added', (snapshot) => {
+    const data = snapshot.val();
+    const msgDiv = document.createElement('div');
+    
+    msgDiv.classList.add('message');
+    
+    // If the name matches yours, add the 'my-message' class
+    if (data.sender === myName) {
+        msgDiv.classList.add('my-message');
+    }
+
+    msgDiv.innerHTML = `
+        <small class="sender-name">${data.sender}</small>
+        <div class="text">${data.content}</div>
+        <small class="timestamp">${data.time}</small>
+    `;
+    
+    chatWindow.appendChild(msgDiv);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+});
