@@ -45,7 +45,6 @@ document.getElementById('clear-btn').onclick = () => {
         database.ref('messages').remove();
         location.reload(); // Refresh the page to show it's empty
     }
-};
 database.ref('messages').on('child_added', (snapshot) => {
     const data = snapshot.val();
     const msgDiv = document.createElement('div');
