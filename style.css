@@ -20,4 +20,11 @@
     background-color: #dcf8c6 !important;
     align-self: flex-end;
     margin-left: auto;
+}#chat-window {
+    height: 400px;
+    overflow-y: auto;
+    padding: 20px;
+    /* You can use a URL to any image you like here */
+    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+    background-color: #e5ddd5;
 }
