@@ -62,12 +62,6 @@ database.ref('messages').on('child_added', (snapshot) => {
     if (data.sender === myName) {
         msgDiv.classList.add('my-message');
     }
-
-    msgDiv.innerHTML = `
-        <small class="sender-name">${data.sender}</small>
-        <div class="text">${data.content}</div>
-        <small class="timestamp">${data.time}</small>
-    `;
     
     chatWindow.appendChild(msgDiv);
     chatWindow.scrollTop = chatWindow.scrollHeight;
