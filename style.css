@@ -28,3 +28,31 @@
     background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
     background-color: #e5ddd5;
 }
+/* This makes the whole window a flexbox so we can align items */
+#chat-window {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #e5ddd5;
+}
+
+/* This is the general message bubble */
+.message {
+    background: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    width: fit-content;
+    max-width: 80%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    align-self: flex-start; /* Default to the left */
+}
+
+/* This pushes YOUR messages to the right and changes the color */
+.my-message {
+    background-color: #dcf8c6 !important;
+    align-self: flex-end !important;
+    margin-left: auto;
+}
