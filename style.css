@@ -1,3 +1,27 @@
+/* Styling for the new elements inside the bubble */
+.sender-name {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: #075e54;
+    margin-bottom: 3px;
+}
+
+.timestamp {
+    display: block;
+    font-size: 0.65rem;
+    color: #666;
+    text-align: right;
+    margin-top: 4px;
+}
+
+/* Optional: Make your messages look different from your sister's */
+.my-message {
+    background-color: #dcf8c6 !important;
+    align-self: flex-end;
+    margin-left: auto;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f0f2f5;
